@@ -12,8 +12,13 @@ import retrofit2.http.*
 class APIServiceClass {
 
     interface APIService {
-        @GET("/users/{user}")
-        fun greetUser(@Path("user") user: String): Call<ResponseBody>
+//        @GET("/users/{user}")
+//        fun generateOpenKey(@Path("user") user: String): Call<ResponseBody>
+
+
+        @Headers("Content-type: application/json")
+        @POST("/private/gm/generate")
+        fun generateOpenKey(@Body body: JsonObject): Call<ResponseBody>
 
         @Headers("Content-type: application/json")
         @POST("/login")
