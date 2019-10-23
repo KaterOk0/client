@@ -6,15 +6,14 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
 
 
 class APIServiceClass {
 
     interface APIService {
-//        @GET("/users/{user}")
-//        fun generateOpenKey(@Path("user") user: String): Call<ResponseBody>
-
 
         @Headers("Content-type: application/json")
         @POST("/private/gm/generate")
@@ -24,15 +23,22 @@ class APIServiceClass {
         @POST("/login")
         fun login(@Body body: JsonObject): Call<ResponseBody>
 
-
         @Headers("Content-type: application/json")
         @POST("/private/gm/decrypt")
         fun gmDecrypt(@Body body: JsonObject): Call<ResponseBody>
+
+        @Headers("Content-type: application/json")
+        @POST("/file")
+        fun getText(@Body body: JsonObject): Call<ResponseBody>
+
+        @Headers("Content-type: application/json")
+        @POST("/private/cfb/decrypt")
+        fun decryptText(@Body body: JsonObject): Call<ResponseBody>
     }
 
     companion object {
         private val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.0.106:5000")
+            .baseUrl("http://192.168.43.205:5000")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
 
