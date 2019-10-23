@@ -23,6 +23,11 @@ class APIServiceClass {
         @Headers("Content-type: application/json")
         @POST("/login")
         fun login(@Body body: JsonObject): Call<ResponseBody>
+
+
+        @Headers("Content-type: application/json")
+        @POST("/private/gm/decrypt")
+        fun gmDecrypt(@Body body: JsonObject): Call<ResponseBody>
     }
 
     companion object {
