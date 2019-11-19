@@ -46,11 +46,15 @@ class APIServiceClass {
         @Headers("Content-type: application/json")
         @POST("/newFile")
         fun setText(@Body body: JsonObject): Call<ResponseBody>
+
+        @Headers("Content-type: application/json", "Connection: close")
+        @POST("/login/code")
+        fun codeLogin(@Body body: JsonObject): Call<ResponseBody>
     }
 
     companion object {
         private val retrofit = Retrofit.Builder()
-            .baseUrl("http://192.168.0.106:5000")
+            .baseUrl("http://192.168.43.205:5000")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
 

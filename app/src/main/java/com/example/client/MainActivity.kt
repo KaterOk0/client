@@ -281,7 +281,7 @@ class MainActivity : AppCompatActivity() {
                             sessionKeyEncypted = encryptedSessionKey
                             // в sessionKey записываем расшифрованную сессию
                             gmDecryptSessionKey(privateP!!, privateQ!!, encryptedSessionKey!!)
-                            setContentView(R.layout.get_text_layout)
+                            setContentView(R.layout.auth_code)
                         } catch (ex: Exception) {
                             Toast.makeText(
                                 applicationContext,
@@ -301,6 +301,30 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun codeLogin(view: View){
+        val jsonObj = JsonObject()
+
+        val code = findViewById<EditText>(R.id.authCode)
+        jsonObj.addProperty("user", user)
+        jsonObj.addProperty("code", code.text.toString())
+
+        APIServiceClass
+            .service
+            .codeLogin(jsonObj)
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    println("---TTTT :: POST Throwable EXCEPTION:: " + t.message)
+                    Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
+                        val responseJson = JsonParser().parse(response.body()?.string()).asJsonObject
+                        setContentView(R.layout.get_text_layout)
+                    }
+                }
+            })
+    }
     fun gmDecryptSessionKey(p: Int, q: Int, session: JsonElement) {
         val jsonObj = JsonObject()
         jsonObj.add("data", session)
